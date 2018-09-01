@@ -13,10 +13,11 @@ $ mint install nicklockwood/SwiftFormat swiftformat
 
 ## Configuration
 
-| Config | Type | Default | Description |
-| `swiftformat.enable` | `Bool` | `true` | Wether SwiftFormat should actually do something. |
-| `swiftformat.path` | `String` |`/usr/local/bin/swiftformat` | The location of SwiftFormat. |
-|`swiftformat.options`|`[String]`| `[]` | Additional parameters for SwiftFormat. |
+| Config                | Type       | Default                      | Description                                      |
+| --------------------- | ---------- | ---------------------------- | ------------------------------------------------ |
+| `swiftformat.enable`  | `Bool`     | `true`                       | Wether SwiftFormat should actually do something. |
+| `swiftformat.path`    | `String`   | `/usr/local/bin/swiftformat` | The location of SwiftFormat.                     |
+| `swiftformat.options` | `[String]` | `[]`                         | Additional parameters for SwiftFormat.           |
 
 ## Contributors
 
