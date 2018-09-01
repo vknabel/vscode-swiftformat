@@ -2,6 +2,10 @@
   "name": "vscode-swiftformat",
   "displayName": "SwiftFormat",
   "description": "Allows you to format your Swift code on macOS.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vknabel/vscode-swiftformat"
+  },
   "version": "1.0.0",
   "license": "MIT",
   "author": {
