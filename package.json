@@ -1,0 +1,79 @@
+{
+  "name": "vscode-swiftformat",
+  "displayName": "SwiftFormat",
+  "description": "Allows you to format your Swift code on macOS.",
+  "version": "1.0.0",
+  "license": "MIT",
+  "author": {
+    "name": "Valentin Knabel",
+    "email": "dev@vknabel.com",
+    "url": "https://github.com/vknabel"
+  },
+  "publisher": "vknabel",
+  "galleryBanner": {
+    "color": "#FC823F",
+    "theme": "light"
+  },
+  "engines": {
+    "vscode": "^1.26.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "activationEvents": [
+    "onLanguage:swift"
+  ],
+  "keywords": [
+    "swift",
+    "swiftformat",
+    "prettifier",
+    "formatter"
+  ],
+  "main": "./out/src/extension",
+  "contributes": {
+    "languages": [
+      {
+        "id": "swift",
+        "aliases": [
+          "Swift"
+        ],
+        "extensions": [
+          "swift"
+        ]
+      }
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "SwiftFormat Configuration",
+      "properties": {
+        "swiftformat.enable": {
+          "type": "boolean",
+          "default": true,
+          "description": "Wether SwiftFormat should actually do something."
+        },
+        "swiftformat.path": {
+          "type": "string",
+          "default": "/usr/local/bin/swiftformat",
+          "description": "The location of SwiftFormat."
+        },
+        "swiftformat.options": {
+          "type": "array",
+          "default": [],
+          "description": "Additional parameters for SwiftFormat.",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "scripts": {
+    "postinstall": "node ./node_modules/vscode/bin/install && yarn compile",
+    "compile": "tsc -p ./"
+  },
+  "devDependencies": {
+    "@types/node": "*",
+    "typescript": "^2.0.6",
+    "vscode": "^1.1.21"
+  }
+}
