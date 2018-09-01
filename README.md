@@ -8,7 +8,7 @@ You can [install](https://github.com/nicklockwood/SwiftFormat#how-do-i-install-i
 # Using Homebrew
 $ brew update && brew install swiftformat
 # Using Mint
-$ mint install nicklockwood/SwiftFormat swiftformat
+$ mint install nicklockwood/SwiftFormat
 ```
 
 ## Configuration
