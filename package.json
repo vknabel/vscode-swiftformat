@@ -22,7 +22,9 @@
     "vscode": "^1.26.0"
   },
   "categories": [
-    "Programming Languages"
+    "Formatters",
+    "Programming Languages",
+    "Other"
   ],
   "activationEvents": [
     "onLanguage:swift"
@@ -77,7 +79,7 @@
   },
   "devDependencies": {
     "@types/node": "*",
-    "typescript": "^2.0.6",
+    "typescript": "^3.0.1",
     "vscode": "^1.1.21"
   }
 }
