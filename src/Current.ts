@@ -4,6 +4,9 @@ export interface Current {
   };
   editor: {
     openURL(url: string): Thenable<void>;
+    reportIssueForError(
+      error: Partial<Error & { code: number }>
+    ): Thenable<void>;
     showErrorMessage<T extends string>(
       message: string,
       ...actions: T[]
@@ -25,6 +28,7 @@ export interface Current {
 }
 
 import * as vscode from "vscode";
+import { url } from "./UrlLiteral";
 export function prodEnvironment(): Current {
   return {
     platform: {
@@ -35,6 +39,14 @@ export function prodEnvironment(): Current {
         await vscode.commands.executeCommand(
           "vscode.open",
           vscode.Uri.parse(url)
+        );
+      },
+      async reportIssueForError(error) {
+        const title = `Report ${error.code || ""} ${error.message ||
+          ""}`.replace(/\\n/, " ");
+        const body = "`" + (error.stack || JSON.stringify(error)) + "`";
+        await Current.editor.openURL(
+          url`https://github.com/vknabel/vscode-swift-development-environment/issues/new?title=${title}&body=${body}`
         );
       },
       showErrorMessage: <T extends string>(message: string, ...actions: T[]) =>
@@ -68,4 +80,5 @@ export function prodEnvironment(): Current {
   };
 }
 
-export default prodEnvironment() as Current;
+const Current = prodEnvironment();
+export default Current as Current;

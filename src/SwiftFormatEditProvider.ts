@@ -9,25 +9,46 @@ const wholeDocumentRange = new vscode.Range(
   Number.MAX_SAFE_INTEGER,
   Number.MAX_SAFE_INTEGER
 );
-function format(
-  document: vscode.TextDocument,
-  options: string[] = [],
-  range: vscode.Range = wholeDocumentRange
-) {
+
+function format(request: {
+  document: vscode.TextDocument;
+  parameters?: string[];
+  range?: vscode.Range;
+  formatting: vscode.FormattingOptions;
+}) {
   try {
-    const input = document.getText(range);
+    const input = request.document.getText(request.range);
+    const userDefinedParams = Current.config.formatOptions();
+    const formattingParameters =
+      userDefinedParams.indexOf("--indent") !== -1
+        ? []
+        : [
+            "--indent",
+            request.formatting.insertSpaces
+              ? `${request.formatting.tabSize}`
+              : "tabs"
+          ];
     const newContents = childProcess
       .execFileSync(
         Current.config.swiftFormatPath(),
-        [...Current.config.formatOptions(), ...options],
+        [
+          ...userDefinedParams,
+          ...(request.parameters || []),
+          ...formattingParameters
+        ],
         {
           encoding: "utf8",
           input
         }
       )
       .slice(0, -1);
-    return newContents !== document.getText(range)
-      ? [vscode.TextEdit.replace(document.validateRange(range), newContents)]
+    return newContents !== request.document.getText(request.range)
+      ? [
+          vscode.TextEdit.replace(
+            request.document.validateRange(request.range || wholeDocumentRange),
+            newContents
+          )
+        ]
       : [];
   } catch (error) {
     handleFormatError(error);
@@ -41,11 +62,15 @@ export class SwiftFormatEditProvider
     vscode.DocumentFormattingEditProvider {
   provideDocumentRangeFormattingEdits(
     document: vscode.TextDocument,
-    range: vscode.Range
+    range: vscode.Range,
+    formatting: vscode.FormattingOptions
   ) {
-    return format(document, ["--fragment"], range);
+    return format({ document, parameters: ["--fragment"], range, formatting });
   }
-  provideDocumentFormattingEdits(document: vscode.TextDocument) {
-    return format(document);
+  provideDocumentFormattingEdits(
+    document: vscode.TextDocument,
+    formatting: vscode.FormattingOptions
+  ) {
+    return format({ document, formatting });
   }
 }

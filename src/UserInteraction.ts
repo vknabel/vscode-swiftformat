@@ -6,6 +6,10 @@ enum FormatErrorInteraction {
   reset = "Reset"
 }
 
+enum UnknwonErrorInteraction {
+  reportIssue = "Report issue"
+}
+
 export async function handleFormatError(error) {
   switch (error.code) {
     case "ENOENT":
@@ -21,6 +25,14 @@ export async function handleFormatError(error) {
         case FormatErrorInteraction.configure:
           await Current.config.configureSwiftFormatPath();
           break;
+      }
+    default:
+      const unknownErrorSelection = await Current.editor.showErrorMessage(
+        `An unknown error occured. ${error.message || ""}`,
+        UnknwonErrorInteraction.reportIssue
+      );
+      if (unknownErrorSelection === UnknwonErrorInteraction.reportIssue) {
+        await Current.editor.reportIssueForError(error);
       }
   }
 }
