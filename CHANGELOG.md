@@ -1,3 +1,7 @@
+# 1.1.1
+
+* SwiftFormat now supports home directories with `~/`
+
 # 1.1.0
 
 * SwiftFormat will now use vscode's indentation settings.

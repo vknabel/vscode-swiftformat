@@ -29,6 +29,8 @@ export interface Current {
 
 import * as vscode from "vscode";
 import { url } from "./UrlLiteral";
+import { absolutePath } from "./AbsolutePath";
+
 export function prodEnvironment(): Current {
   return {
     platform: {
@@ -66,7 +68,9 @@ export function prodEnvironment(): Current {
         vscode.workspace.getConfiguration().get("swiftformat.enable"),
 
       swiftFormatPath: () =>
-        vscode.workspace.getConfiguration().get("swiftformat.path"),
+        absolutePath(
+          vscode.workspace.getConfiguration().get("swiftformat.path")
+        ),
       resetSwiftFormatPath: () =>
         vscode.workspace
           .getConfiguration()
