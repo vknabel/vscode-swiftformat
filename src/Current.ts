@@ -48,7 +48,7 @@ export function prodEnvironment(): Current {
           ""}`.replace(/\\n/, " ");
         const body = "`" + (error.stack || JSON.stringify(error)) + "`";
         await Current.editor.openURL(
-          url`https://github.com/vknabel/vscode-swift-development-environment/issues/new?title=${title}&body=${body}`
+          url`https://github.com/vknabel/vscode-swiftformat/issues/new?title=${title}&body=${body}`
         );
       },
       showErrorMessage: <T extends string>(message: string, ...actions: T[]) =>

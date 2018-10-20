@@ -1,3 +1,8 @@
+# 1.1.2
+
+* Format selection did not work correctly.
+* Had wrong issue reporting url.
+
 # 1.1.1
 
 * SwiftFormat now supports home directories with `~/`

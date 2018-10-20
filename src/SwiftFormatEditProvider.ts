@@ -65,7 +65,12 @@ export class SwiftFormatEditProvider
     range: vscode.Range,
     formatting: vscode.FormattingOptions
   ) {
-    return format({ document, parameters: ["--fragment"], range, formatting });
+    return format({
+      document,
+      parameters: ["--fragment", "true"],
+      range,
+      formatting
+    });
   }
   provideDocumentFormattingEdits(
     document: vscode.TextDocument,
