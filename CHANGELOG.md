@@ -1,3 +1,7 @@
+# 1.1.3
+
+* Did print help when formatting empty document.
+
 # 1.1.2
 
 * Format selection did not work correctly.

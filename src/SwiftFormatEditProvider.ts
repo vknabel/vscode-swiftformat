@@ -18,6 +18,7 @@ function format(request: {
 }) {
   try {
     const input = request.document.getText(request.range);
+    if (input.trim() === "") return [];
     const userDefinedParams = Current.config.formatOptions();
     const formattingParameters =
       userDefinedParams.indexOf("--indent") !== -1
