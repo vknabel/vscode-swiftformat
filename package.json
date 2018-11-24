@@ -55,12 +55,17 @@
         "swiftformat.enable": {
           "type": "boolean",
           "default": true,
-          "description": "Wether SwiftFormat should actually do something."
+          "description": "Whether SwiftFormat should actually start up on this project."
+        },
+        "swiftformat.onlyEnableOnSwiftPMProjects": {
+          "type": "boolean",
+          "default": false,
+          "description": "Only allows the extension to load up when SwiftFormat is available via Swift PM."
         },
         "swiftformat.path": {
           "type": "string",
           "default": "/usr/local/bin/swiftformat",
-          "description": "The location of SwiftFormat."
+          "description": "The location of your globally installed SwiftFormat."
         },
         "swiftformat.options": {
           "type": "array",
@@ -78,7 +83,7 @@
     "compile": "tsc -p ./"
   },
   "devDependencies": {
-    "@types/node": "*",
+    "@types/node": "^10.12.10",
     "typescript": "^3.0.1",
     "vscode": "^1.1.21"
   }

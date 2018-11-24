@@ -6,15 +6,15 @@ enum FormatErrorInteraction {
   reset = "Reset"
 }
 
-enum UnknwonErrorInteraction {
+enum UnknownErrorInteraction {
   reportIssue = "Report issue"
 }
 
-export async function handleFormatError(error) {
+export async function handleFormatError(error: any, document: vscode.TextDocument) {
   switch (error.code) {
     case "ENOENT":
       const selection = await Current.editor.showErrorMessage(
-        `Could not find SwiftFormat: ${Current.config.swiftFormatPath()}`,
+        `Could not find SwiftFormat: ${Current.config.swiftFormatPath(document)}`,
         FormatErrorInteraction.reset,
         FormatErrorInteraction.configure
       );
@@ -28,10 +28,10 @@ export async function handleFormatError(error) {
       }
     default:
       const unknownErrorSelection = await Current.editor.showErrorMessage(
-        `An unknown error occured. ${error.message || ""}`,
-        UnknwonErrorInteraction.reportIssue
+        `An unknown error occurred. ${error.message || ""}`,
+        UnknownErrorInteraction.reportIssue
       );
-      if (unknownErrorSelection === UnknwonErrorInteraction.reportIssue) {
+      if (unknownErrorSelection === UnknownErrorInteraction.reportIssue) {
         await Current.editor.reportIssueForError(error);
       }
   }

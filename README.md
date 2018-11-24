@@ -1,8 +1,11 @@
 # SwiftFormat for VS Code
 
-In order to prettify your Swift code, you need to have [SwiftFormat](https://github.com/nicklockwood/SwiftFormat) installed.
+Prettify your Swift code automatically via [SwiftFormat](https://github.com/nicklockwood/SwiftFormat). You can 
+use SwiftFormat installed globally or via the Swift Package Manager.
 
-You can [install](https://github.com/nicklockwood/SwiftFormat#how-do-i-install-it) it using [Homebrew](http://brew.sh/) or [Mint](https://github.com/yonaskolb/Mint)
+### Global Installation
+
+You can [install](https://github.com/nicklockwood/SwiftFormat#how-do-i-install-it) SwiftFormat globally using [Homebrew](http://brew.sh/) or [Mint](https://github.com/yonaskolb/Mint)
 
 ```bash
 # Using Homebrew
@@ -11,13 +14,38 @@ $ brew update && brew install swiftformat
 $ mint install nicklockwood/SwiftFormat
 ```
 
+### Local Installation
+
+Add the package to your dependencies in `Package.swift`:
+
+```diff
+// swift-tools-version:4.2
+
+import PackageDescription
+
+let package = Package(
+    name: "Komondor",
+    products: [ ... ],
+    dependencies: [
+        // My dependencies
+        .package(url: "https://github.com/orta/PackageConfig.git", from: "0.0.1"),
+        // Dev deps
+        .package(url: "https://github.com/orta/Komondor.git", from: "0.0.1"),
++        .package(url: "https://github.com/nicklockwood/SwiftFormat.git", from: "0.35.8"),
+    ],
+    targets: [...]
+)
+```
+
+
+
 ## Configuration
 
-| Config                | Type       | Default                      | Description                                      |
-| --------------------- | ---------- | ---------------------------- | ------------------------------------------------ |
-| `swiftformat.enable`  | `Bool`     | `true`                       | Wether SwiftFormat should actually do something. |
-| `swiftformat.path`    | `String`   | `/usr/local/bin/swiftformat` | The location of SwiftFormat.                     |
-| `swiftformat.options` | `[String]` | `[]`                         | Additional parameters for SwiftFormat.           |
+| Config                | Type       | Default                      | Description                                         |
+| --------------------- | ---------- | ---------------------------- | --------------------------------------------------- |
+| `swiftformat.enable`  | `Bool`     | `true`                       | Whether SwiftFormat should actually do something.   |
+| `swiftformat.path`    | `String`   | `/usr/local/bin/swiftformat` | The location of the globally installed SwiftFormat. |
+| `swiftformat.options` | `[String]` | `[]`                         | Additional parameters for SwiftFormat.              |
 
 ## Contributors
 
@@ -25,4 +53,4 @@ $ mint install nicklockwood/SwiftFormat
 
 ## License
 
-Archery is available under the [MIT](./LICENSE) license.
+vscode-swiftformat is available under the [MIT](./LICENSE) license.
