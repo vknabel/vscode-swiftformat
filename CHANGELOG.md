@@ -1,3 +1,7 @@
+# 1.2.1
+
+* Prefers release over debug builds of SwiftFormat - [@segiddins](https://github.com/segiddins)
+
 # 1.2.0
 
 * Supports running on Swift PM projects which have a dependency on SwiftFormat - [@orta](https://github.com/orta/)

@@ -70,8 +70,8 @@ export function prodEnvironment(): Current {
       swiftFormatPath: (document: vscode.TextDocument) => {
         // Support running from Swift PM projects
         const possibleLocalPaths = [
-          ".build/debug/swiftformat",
-          ".build/release/swiftformat"
+          ".build/release/swiftformat",
+          ".build/debug/swiftformat"
         ];
         for (const path of possibleLocalPaths) {
           // Grab the project root from the local workspace
