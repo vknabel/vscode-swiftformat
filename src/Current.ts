@@ -19,10 +19,9 @@ export interface Current {
   config: {
     isEnabled(): boolean;
 
-    swiftFormatPath(): string;
+    swiftFormatPath(document: vscode.TextDocument): string;
     resetSwiftFormatPath(): void;
     configureSwiftFormatPath(): void;
-
     formatOptions(): string[];
   };
 }
@@ -30,6 +29,8 @@ export interface Current {
 import * as vscode from "vscode";
 import { url } from "./UrlLiteral";
 import { absolutePath } from "./AbsolutePath";
+import { existsSync } from "fs";
+import { join } from "path";
 
 export function prodEnvironment(): Current {
   return {
@@ -66,23 +67,36 @@ export function prodEnvironment(): Current {
     config: {
       isEnabled: () =>
         vscode.workspace.getConfiguration().get("swiftformat.enable"),
+      swiftFormatPath: (document: vscode.TextDocument) => {
+        // Support running from Swift PM projects
+        const possibleLocalPaths = [".build/debug/swiftformat", ".build/release/swiftformat"]
+        for (const path of possibleLocalPaths) {
+          // Grab the project root from the local workspace
+          const workspace = vscode.workspace.getWorkspaceFolder(document.uri)
+          const fullPath = join(workspace.uri.fsPath, path)
 
-      swiftFormatPath: () =>
-        absolutePath(
-          vscode.workspace.getConfiguration().get("swiftformat.path")
-        ),
+          if (existsSync(fullPath)) {
+            return absolutePath(fullPath)
+          }
+        }
+        // Fall back to global defaults found in settings
+        return fallbackGlobalSwiftFormatPath()
+      },
       resetSwiftFormatPath: () =>
         vscode.workspace
           .getConfiguration()
           .update("swiftformat.path", undefined),
       configureSwiftFormatPath: () =>
         vscode.commands.executeCommand("workbench.action.openSettings"),
-
       formatOptions: () =>
         vscode.workspace.getConfiguration().get("swiftformat.options")
     }
   };
 }
+
+const fallbackGlobalSwiftFormatPath = () => absolutePath(
+  vscode.workspace.getConfiguration().get("swiftformat.path")
+)
 
 const Current = prodEnvironment();
 export default Current as Current;

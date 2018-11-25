@@ -31,7 +31,7 @@ function format(request: {
           ];
     const newContents = childProcess
       .execFileSync(
-        Current.config.swiftFormatPath(),
+        Current.config.swiftFormatPath(request.document),
         [
           ...userDefinedParams,
           ...(request.parameters || []),
@@ -52,7 +52,7 @@ function format(request: {
         ]
       : [];
   } catch (error) {
-    handleFormatError(error);
+    handleFormatError(error, request.document);
     return [];
   }
 }

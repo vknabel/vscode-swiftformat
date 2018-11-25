@@ -1,3 +1,7 @@
+# Master
+
+* Supports running on Swift PM projects which have a dependency on SwiftFormat - [@orta](https://github.com/orta/)
+
 # 1.1.3
 
 * Did print help when formatting empty document.
