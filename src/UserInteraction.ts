@@ -31,6 +31,7 @@ export async function handleFormatError(
           await Current.config.configureSwiftFormatPath();
           break;
       }
+      break;
     default:
       const unknownErrorSelection = await Current.editor.showErrorMessage(
         `An unknown error occurred. ${error.message || ""}`,

@@ -101,7 +101,11 @@ export function prodEnvironment(): Current {
 }
 
 const fallbackGlobalSwiftFormatPath = () =>
-  absolutePath(vscode.workspace.getConfiguration().get("swiftformat.path", "/usr/local/bin/swiftformat"));
+  absolutePath(
+    vscode.workspace
+      .getConfiguration()
+      .get("swiftformat.path", "/usr/local/bin/swiftformat")
+  );
 
 const Current = prodEnvironment();
 export default Current as Current;

@@ -1,6 +1,7 @@
 # 1.2.2
 
 * Documents not opened in workspaces lead to a crash. #3 - [@vknabel](https://github.com/vknabel/)
+* Missing `break` within switch statement lead to reporting explicitly handled issues #4 - [@vknabel](https://github.com/vknabel/)
 
 # 1.2.1
 
