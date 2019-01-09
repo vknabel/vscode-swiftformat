@@ -1,3 +1,7 @@
+# 1.2.2
+
+* Documents not opened in workspaces lead to a crash. #3 - [@vknabel](https://github.com/vknabel/)
+
 # 1.2.1
 
 * Prefers release over debug builds of SwiftFormat - [@segiddins](https://github.com/segiddins)
