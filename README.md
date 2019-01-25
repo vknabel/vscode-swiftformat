@@ -1,6 +1,6 @@
 # SwiftFormat for VS Code
 
-Prettify your Swift code automatically via [SwiftFormat](https://github.com/nicklockwood/SwiftFormat). You can 
+Prettify your Swift code automatically via [SwiftFormat](https://github.com/nicklockwood/SwiftFormat). You can
 use SwiftFormat installed globally or via the Swift Package Manager.
 
 ### Global Installation
@@ -37,15 +37,14 @@ let package = Package(
 )
 ```
 
-
-
 ## Configuration
 
-| Config                | Type       | Default                      | Description                                         |
-| --------------------- | ---------- | ---------------------------- | --------------------------------------------------- |
-| `swiftformat.enable`  | `Bool`     | `true`                       | Whether SwiftFormat should actually do something.   |
-| `swiftformat.path`    | `String`   | `/usr/local/bin/swiftformat` | The location of the globally installed SwiftFormat. |
-| `swiftformat.options` | `[String]` | `[]`                         | Additional parameters for SwiftFormat.              |
+| Config                          | Type       | Default                      | Description                                         |
+| ------------------------------- | ---------- | ---------------------------- | --------------------------------------------------- |
+| `swiftformat.enable`            | `Bool`     | `true`                       | Whether SwiftFormat should actually do something.   |
+| `swiftformat.path`              | `String`   | `/usr/local/bin/swiftformat` | The location of the globally installed SwiftFormat. |
+| `swiftformat.options`           | `[String]` | `[]`                         | Additional parameters for SwiftFormat.              |
+| `swiftformat.configSearchPaths` | `[String]` | `[".swiftformat"]`           | Possible paths for SwiftFormat config.              |
 
 ## Contributors
 

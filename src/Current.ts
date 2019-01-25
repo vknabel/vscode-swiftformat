@@ -23,6 +23,7 @@ export interface Current {
     resetSwiftFormatPath(): void;
     configureSwiftFormatPath(): void;
     formatOptions(): string[];
+    formatConfigSearchPaths(): string[];
   };
 }
 
@@ -95,7 +96,11 @@ export function prodEnvironment(): Current {
       configureSwiftFormatPath: () =>
         vscode.commands.executeCommand("workbench.action.openSettings"),
       formatOptions: () =>
-        vscode.workspace.getConfiguration().get("swiftformat.options", [])
+        vscode.workspace.getConfiguration().get("swiftformat.options", []),
+      formatConfigSearchPaths: () =>
+        vscode.workspace
+          .getConfiguration()
+          .get("swiftformat.configSearchPaths", [".swiftformat"])
     }
   };
 }
