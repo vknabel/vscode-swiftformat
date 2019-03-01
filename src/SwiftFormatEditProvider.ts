@@ -19,7 +19,9 @@ function userDefinedFormatOptionsForDocument(
   if (formatOptions.indexOf("--config") != -1) return formatOptions;
   const workspaceFolder = vscode.workspace.getWorkspaceFolder(document.uri);
   const rootPath =
-    workspaceFolder!.uri.fsPath || vscode.workspace.rootPath || "./";
+    (workspaceFolder && workspaceFolder.uri.fsPath) ||
+    vscode.workspace.rootPath ||
+    "./";
   const searchPaths = Current.config
     .formatConfigSearchPaths()
     .map(current => join(rootPath, current));

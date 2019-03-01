@@ -1,3 +1,7 @@
+# 1.3.1
+
+* Formatting new files lead to an error. #6 - [@vknabel](https://github.com/vknabel/)
+
 # 1.3.0
 
 * Automatically load SwiftFormat config files. #5 - [@vknabel](https://github.com/vknabel/)
