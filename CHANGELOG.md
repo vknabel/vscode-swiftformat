@@ -1,3 +1,7 @@
+# 1.3.2
+
+* Removed missing linux support warning as it [is officially supported now](https://github.com/nicklockwood/SwiftFormat/issues/240#issuecomment-458776216). #9 - thanks to [@cgarciae](https://github.com/cgarciae/)
+
 # 1.3.1
 
 * Formatting new files lead to an error. #6 - [@vknabel](https://github.com/vknabel/)

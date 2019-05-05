@@ -1,7 +1,4 @@
 export interface Current {
-  platform: {
-    isLinux: boolean;
-  };
   editor: {
     openURL(url: string): Thenable<void>;
     reportIssueForError(
@@ -35,9 +32,6 @@ import { join } from "path";
 
 export function prodEnvironment(): Current {
   return {
-    platform: {
-      isLinux: process.platform === "linux"
-    },
     editor: {
       async openURL(url: string) {
         await vscode.commands.executeCommand(

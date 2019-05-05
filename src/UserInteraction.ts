@@ -42,19 +42,3 @@ export async function handleFormatError(
     }
   }
 }
-
-enum LinuxWarningInteraction {
-  learnWhy = "Learn Why"
-}
-
-export async function showMissingLinuxSupportWarning() {
-  const selection = await Current.editor.showWarningMessage(
-    "Formatting will be disabled as SwiftFormat is not available on Linux.",
-    LinuxWarningInteraction.learnWhy
-  );
-  if (selection === LinuxWarningInteraction.learnWhy) {
-    Current.editor.openURL(
-      "https://github.com/nicklockwood/SwiftFormat/issues/240"
-    );
-  }
-}

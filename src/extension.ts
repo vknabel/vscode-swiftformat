@@ -3,13 +3,9 @@
 import * as vscode from "vscode";
 import { SwiftFormatEditProvider } from "./SwiftFormatEditProvider";
 import Current from "./Current";
-import { showMissingLinuxSupportWarning } from "./UserInteraction";
 
 export function activate(context: vscode.ExtensionContext) {
   if (Current.config.isEnabled() === false) {
-    return;
-  } else if (Current.platform.isLinux) {
-    showMissingLinuxSupportWarning();
     return;
   }
 
