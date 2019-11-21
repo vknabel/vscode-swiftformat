@@ -1,7 +1,7 @@
 {
   "name": "vscode-swiftformat",
   "displayName": "SwiftFormat",
-  "description": "Allows you to format your Swift code on macOS.",
+  "description": "Formatting Swift code with nicklockwood/SwiftFormat.",
   "repository": {
     "type": "git",
     "url": "https://github.com/vknabel/vscode-swiftformat"
@@ -14,6 +14,7 @@
     "url": "https://github.com/vknabel"
   },
   "publisher": "vknabel",
+  "icon": "assets/icon.png",
   "galleryBanner": {
     "color": "#FC823F",
     "theme": "light"
