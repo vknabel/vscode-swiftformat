@@ -50,20 +50,18 @@ function format(request: {
               ? `${request.formatting.tabSize}`
               : "tabs"
           ];
-    const newContents = childProcess
-      .execFileSync(
-        Current.config.swiftFormatPath(request.document),
-        [
-          ...userDefinedParams,
-          ...(request.parameters || []),
-          ...formattingParameters
-        ],
-        {
-          encoding: "utf8",
-          input
-        }
-      )
-      .slice(0, -1);
+    const newContents = childProcess.execFileSync(
+      Current.config.swiftFormatPath(request.document),
+      [
+        ...userDefinedParams,
+        ...(request.parameters || []),
+        ...formattingParameters
+      ],
+      {
+        encoding: "utf8",
+        input
+      }
+    );
     return newContents !== request.document.getText(request.range)
       ? [
           vscode.TextEdit.replace(

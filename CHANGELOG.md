@@ -1,3 +1,7 @@
+# 1.3.4
+
+* End of newline was always stripped. #13 - [@vknabel](https://github.com/vknabel/)
+
 # 1.3.3
 
 * Introduced extension logo. - [@vknabel](https://github.com/vknabel/)
