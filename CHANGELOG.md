@@ -1,3 +1,7 @@
+# 1.3.5
+
+* Fixed: `configSearchPaths` did not support `~` vknabel/vscode-swiftlint#8 - [@vknabel](https://github.com/vknabel/)
+
 # 1.3.4
 
 * End of newline was always stripped. #13 - [@vknabel](https://github.com/vknabel/)

@@ -95,6 +95,7 @@ export function prodEnvironment(): Current {
         vscode.workspace
           .getConfiguration()
           .get("swiftformat.configSearchPaths", [".swiftformat"])
+          .map(absolutePath)
     }
   };
 }
