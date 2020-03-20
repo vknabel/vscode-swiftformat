@@ -90,14 +90,13 @@
     }
   },
   "scripts": {
-    "postinstall": "node ./node_modules/vscode/bin/install && yarn compile",
     "compile": "tsc -p ./",
     "format": "prettier --write ./*.json ./**/*.ts"
   },
   "devDependencies": {
     "@types/node": "^10.12.10",
+    "@types/vscode": "^1.26.0",
     "prettier": "^1.15.2",
-    "typescript": "^3.0.1",
-    "vscode": "^1.1.21"
+    "typescript": "^3.0.1"
   }
 }
