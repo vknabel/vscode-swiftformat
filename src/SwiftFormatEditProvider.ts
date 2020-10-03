@@ -26,7 +26,7 @@ function userDefinedFormatOptionsForDocument(
     .formatConfigSearchPaths()
     .map(current => resolve(rootPath, current));
   const existingConfig = searchPaths.find(existsSync);
-  return existingConfig != null ? ["--config", existingConfig] : [];
+  return existingConfig != null ? ["--config", existingConfig, ...formatOptions] : formatOptions;
 }
 
 function format(request: {

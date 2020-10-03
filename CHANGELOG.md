@@ -1,3 +1,7 @@
+# 1.3.6
+
+* Fixed: `swiftformat.options` were not always respected vknabel/vscode-swiftlint#14 - [@vknabel](https://github.com/vknabel/)
+
 # 1.3.5
 
 * Fixed: `configSearchPaths` did not support `~` vknabel/vscode-swiftlint#8 - [@vknabel](https://github.com/vknabel/)
