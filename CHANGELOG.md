@@ -1,3 +1,7 @@
+# 1.3.7
+
+Fixes vulnerability which allowed malicous workspaces to execute code when opened by providing. Now the vulnerable configs cannot be overrided in workspaces anymore: `swiftformat.path`.
+
 # 1.3.6
 
 * Fixed: `swiftformat.options` were not always respected vknabel/vscode-swiftlint#14 - [@vknabel](https://github.com/vknabel/)
