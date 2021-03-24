@@ -1,6 +1,6 @@
 # 1.3.7
 
-Fixes vulnerability which allowed malicous workspaces to execute code when opened by providing. Now the vulnerable configs cannot be overrided in workspaces anymore: `swiftformat.path`. Reported by [@Ry0taK](https://github.com/Ry0taK).
+[CVE-2021-28791](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-28791): Fixes vulnerability which allowed malicous workspaces to execute code when opened by providing. Now the vulnerable configs cannot be overrided in workspaces anymore: `swiftformat.path`. Reported by [@Ry0taK](https://github.com/Ry0taK).
 
 # 1.3.6
 
