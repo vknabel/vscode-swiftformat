@@ -26,7 +26,9 @@ function userDefinedFormatOptionsForDocument(
     .formatConfigSearchPaths()
     .map(current => resolve(rootPath, current));
   const existingConfig = searchPaths.find(existsSync);
-  return existingConfig != null ? ["--config", existingConfig, ...formatOptions] : formatOptions;
+  return existingConfig != null
+    ? ["--config", existingConfig, ...formatOptions]
+    : formatOptions;
 }
 
 function format(request: {
@@ -53,6 +55,11 @@ function format(request: {
     const newContents = childProcess.execFileSync(
       Current.config.swiftFormatPath(request.document),
       [
+        "stdin",
+        "--stdinpath",
+        request.document.fileName,
+        "--header",
+        "// Created {created}",
         ...userDefinedParams,
         ...(request.parameters || []),
         ...formattingParameters
