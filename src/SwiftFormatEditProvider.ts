@@ -58,8 +58,6 @@ function format(request: {
         "stdin",
         "--stdinpath",
         request.document.fileName,
-        "--header",
-        "// Created {created}",
         ...userDefinedParams,
         ...(request.parameters || []),
         ...formattingParameters

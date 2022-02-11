@@ -1,3 +1,7 @@
+# 1.3.9
+
+- Fixed: accidentially always added `--header "// Created {created}"` #19
+
 # 1.3.8
 
 - Fixed: failed to apply `--header` option #18
