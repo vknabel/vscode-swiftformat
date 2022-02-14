@@ -1,3 +1,7 @@
+# 1.3.10
+
+- Fixed: `vsce publish` didn't rebuild the extension #19
+
 # 1.3.9
 
 - Fixed: accidentially always added `--header "// Created {created}"` #19
