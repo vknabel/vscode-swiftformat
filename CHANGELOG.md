@@ -1,3 +1,8 @@
+# 1.4.0
+
+- Added: `swiftformat.onlyEnableWithConfig` to only enable SwiftFormat with a config #20
+- Fixed: `swiftformat.onlyEnableOnSwiftPMProjects` didn't work correctly
+
 # 1.3.10
 
 - Fixed: `vsce publish` didn't rebuild the extension #19

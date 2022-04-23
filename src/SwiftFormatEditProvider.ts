@@ -14,9 +14,10 @@ const wholeDocumentRange = new vscode.Range(
 
 function userDefinedFormatOptionsForDocument(
   document: vscode.TextDocument
-): string[] {
+): { options: string[]; hasConfig: boolean } {
   const formatOptions = Current.config.formatOptions();
-  if (formatOptions.indexOf("--config") != -1) return formatOptions;
+  if (formatOptions.indexOf("--config") != -1)
+    return { options: formatOptions, hasConfig: true };
   const workspaceFolder = vscode.workspace.getWorkspaceFolder(document.uri);
   const rootPath =
     (workspaceFolder && workspaceFolder.uri.fsPath) ||
@@ -26,9 +27,11 @@ function userDefinedFormatOptionsForDocument(
     .formatConfigSearchPaths()
     .map(current => resolve(rootPath, current));
   const existingConfig = searchPaths.find(existsSync);
-  return existingConfig != null
-    ? ["--config", existingConfig, ...formatOptions]
-    : formatOptions;
+  const options =
+    existingConfig != null
+      ? ["--config", existingConfig, ...formatOptions]
+      : formatOptions;
+  return { options, hasConfig: existingConfig != null };
 }
 
 function format(request: {
@@ -36,15 +39,22 @@ function format(request: {
   parameters?: string[];
   range?: vscode.Range;
   formatting: vscode.FormattingOptions;
-}) {
+}): vscode.TextEdit[] {
   try {
+    const swiftFormatPath = Current.config.swiftFormatPath(request.document);
+    if (swiftFormatPath == null) {
+      return [];
+    }
     const input = request.document.getText(request.range);
     if (input.trim() === "") return [];
     const userDefinedParams = userDefinedFormatOptionsForDocument(
       request.document
     );
+    if (!userDefinedParams.hasConfig && Current.config.onlyEnableWithConfig()) {
+      return [];
+    }
     const formattingParameters =
-      userDefinedParams.indexOf("--indent") !== -1
+      userDefinedParams.options.indexOf("--indent") !== -1
         ? []
         : [
             "--indent",
@@ -53,12 +63,12 @@ function format(request: {
               : "tabs"
           ];
     const newContents = childProcess.execFileSync(
-      Current.config.swiftFormatPath(request.document),
+      swiftFormatPath,
       [
         "stdin",
         "--stdinpath",
         request.document.fileName,
-        ...userDefinedParams,
+        ...userDefinedParams.options,
         ...(request.parameters || []),
         ...formattingParameters
       ],

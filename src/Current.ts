@@ -15,8 +15,9 @@ export interface Current {
   };
   config: {
     isEnabled(): boolean;
-
-    swiftFormatPath(document: vscode.TextDocument): string;
+    onlyEnableOnSwiftPMProjects(): boolean;
+    onlyEnableWithConfig(): boolean;
+    swiftFormatPath(document: vscode.TextDocument): string | null;
     resetSwiftFormatPath(): void;
     configureSwiftFormatPath(): void;
     formatOptions(): string[];
@@ -62,6 +63,15 @@ export function prodEnvironment(): Current {
     config: {
       isEnabled: () =>
         vscode.workspace.getConfiguration().get("swiftformat.enable", true),
+      onlyEnableOnSwiftPMProjects: () =>
+        vscode.workspace
+          .getConfiguration()
+          .get("swiftformat.onlyEnableOnSwiftPMProjects", false),
+      onlyEnableWithConfig: () =>
+        vscode.workspace
+          .getConfiguration()
+          .get("swiftformat.onlyEnableWithConfig", false),
+
       swiftFormatPath: (document: vscode.TextDocument) => {
         // Support running from Swift PM projects
         const possibleLocalPaths = [
@@ -79,6 +89,13 @@ export function prodEnvironment(): Current {
           if (existsSync(fullPath)) {
             return absolutePath(fullPath);
           }
+        }
+        if (
+          vscode.workspace
+            .getConfiguration()
+            .get("swiftformat.onlyEnableOnSwiftPMProjects", false)
+        ) {
+          return null;
         }
         // Fall back to global defaults found in settings
         return fallbackGlobalSwiftFormatPath();
