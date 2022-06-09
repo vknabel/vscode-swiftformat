@@ -1,3 +1,7 @@
+# 1.5.0
+
+- Added: build SwiftFormat if needed
+
 # 1.4.0
 
 - Added: `swiftformat.onlyEnableWithConfig` to only enable SwiftFormat with a config #20
