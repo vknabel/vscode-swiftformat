@@ -1,3 +1,7 @@
+# 1.5.1
+
+- fix: on Linux, must also be linked
+
 # 1.5.0
 
 - Added: build SwiftFormat if needed
