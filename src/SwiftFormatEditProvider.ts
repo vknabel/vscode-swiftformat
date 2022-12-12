@@ -63,8 +63,9 @@ function format(request: {
               : "tabs"
           ];
     const newContents = childProcess.execFileSync(
-      swiftFormatPath,
+      swiftFormatPath[0],
       [
+        ...swiftFormatPath.slice(1),
         "stdin",
         "--stdinpath",
         request.document.fileName,

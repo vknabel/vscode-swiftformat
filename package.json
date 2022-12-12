@@ -6,7 +6,7 @@
     "type": "git",
     "url": "https://github.com/vknabel/vscode-swiftformat"
   },
-  "version": "1.5.1",
+  "version": "1.6.0",
   "license": "MIT",
   "author": {
     "name": "Valentin Knabel",
@@ -69,10 +69,29 @@
           "description": "Only use SwiftFormat when a config exists."
         },
         "swiftformat.path": {
-          "type": "string",
-          "default": "/usr/local/bin/swiftformat",
           "description": "The location of your globally installed SwiftFormat.",
-          "scope": "machine"
+          "scope": "machine",
+          "default": [
+            "/usr/bin/env",
+            "swiftformat"
+          ],
+          "oneOf": [
+            {
+              "type": "string",
+              "default": "/usr/local/bin/swiftformat"
+            },
+            {
+              "type": "array",
+              "minItems": 1,
+              "default": [
+                "/usr/bin/env",
+                "swiftformat"
+              ],
+              "items": {
+                "type": "string"
+              }
+            }
+          ]
         },
         "swiftformat.options": {
           "type": "array",

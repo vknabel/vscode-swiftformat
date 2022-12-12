@@ -42,14 +42,14 @@ let package = Package(
 
 ## Configuration
 
-| Config                                    | Type       | Default                      | Description                                                                                |
-| ----------------------------------------- | ---------- | ---------------------------- | ------------------------------------------------------------------------------------------ |
-| `swiftformat.enable`                      | `Bool`     | `true`                       | Whether SwiftFormat should actually do something.                                          |
-| `swiftformat.onlyEnableOnSwiftPMProjects` | `Bool`     | `false`                      | Requires and uses a SwiftFormat as SwiftPM dependency.                                     |
-| `swiftformat.onlyEnableWithConfig`        | `Bool`     | `false`                      | Only format if config present.                                                             |
-| `swiftformat.path`                        | `String`   | `/usr/local/bin/swiftformat` | The location of the globally installed SwiftFormat.                                        |
-| `swiftformat.options`                     | `[String]` | `[]`                         | Additional [options for SwiftFormat](https://github.com/nicklockwood/SwiftFormat#options). |
-| `swiftformat.configSearchPaths`           | `[String]` | `[".swiftformat"]`           | Possible paths for SwiftFormat config.                                                     |
+| Config                                    | Type                | Default                       | Description                                                                                |
+| ----------------------------------------- | ------------------- | ----------------------------- | ------------------------------------------------------------------------------------------ |
+| `swiftformat.enable`                      | `Bool`              | `true`                        | Whether SwiftFormat should actually do something.                                          |
+| `swiftformat.onlyEnableOnSwiftPMProjects` | `Bool`              | `false`                       | Requires and uses a SwiftFormat as SwiftPM dependency.                                     |
+| `swiftformat.onlyEnableWithConfig`        | `Bool`              | `false`                       | Only format if config present.                                                             |
+| `swiftformat.path`                        | `[String] | String` | `[/usr/bin/env, swiftformat]` | The location of the globally installed SwiftFormat.                                        |
+| `swiftformat.options`                     | `[String]`          | `[]`                          | Additional [options for SwiftFormat](https://github.com/nicklockwood/SwiftFormat#options). |
+| `swiftformat.configSearchPaths`           | `[String]`          | `[".swiftformat"]`            | Possible paths for SwiftFormat config.                                                     |
 
 ## Contributors
 

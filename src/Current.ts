@@ -17,7 +17,7 @@ export interface Current {
     isEnabled(): boolean;
     onlyEnableOnSwiftPMProjects(): boolean;
     onlyEnableWithConfig(): boolean;
-    swiftFormatPath(document: vscode.TextDocument): string | null;
+    swiftFormatPath(document: vscode.TextDocument): string[] | null;
     resetSwiftFormatPath(): void;
     configureSwiftFormatPath(): void;
     formatOptions(): string[];
@@ -87,7 +87,7 @@ export function prodEnvironment(): Current {
           const fullPath = join(workspace.uri.fsPath, path);
 
           if (existsSync(fullPath)) {
-            return absolutePath(fullPath);
+            return [absolutePath(fullPath)];
           }
         }
         if (
@@ -117,12 +117,19 @@ export function prodEnvironment(): Current {
   };
 }
 
-const fallbackGlobalSwiftFormatPath = () =>
-  absolutePath(
-    vscode.workspace
-      .getConfiguration()
-      .get("swiftformat.path", "/usr/local/bin/swiftformat")
-  );
+const fallbackGlobalSwiftFormatPath = (): string[] => {
+  const defaultPath = ["/usr/bin/env", "swiftformat"];
+  const path = vscode.workspace
+    .getConfiguration()
+    .get("swiftformat.path", defaultPath);
+  if (typeof path === "string") {
+    return [absolutePath(path)];
+  } else if (Array.isArray(path) && path.length > 0) {
+    return [absolutePath(path[0]), ...path.slice(1)];
+  } else {
+    return defaultPath;
+  }
+};
 
 const Current = prodEnvironment();
 export default Current as Current;

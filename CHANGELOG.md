@@ -1,6 +1,7 @@
-# Unreleased
+# 1.6.0
 
 - docs: clarified `swiftformat.options` #17
+- Added: `swiftformat.path` can now be an array of strings and defaults to `[/usr/bin/env, swiftformat]` #17
 
 # 1.5.1
 
