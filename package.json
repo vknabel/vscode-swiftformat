@@ -77,7 +77,7 @@
         "swiftformat.options": {
           "type": "array",
           "default": [],
-          "description": "Additional parameters for SwiftFormat.",
+          "description": "Additional options for SwiftFormat: https://github.com/nicklockwood/SwiftFormat#options",
           "items": {
             "type": "string"
           }

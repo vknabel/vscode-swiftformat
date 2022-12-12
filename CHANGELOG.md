@@ -1,3 +1,7 @@
+# Unreleased
+
+- docs: clarified `swiftformat.options` #17
+
 # 1.5.1
 
 - fix: on Linux, must also be linked
