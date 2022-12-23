@@ -3,7 +3,8 @@ import Current from "./Current";
 
 enum FormatErrorInteraction {
   configure = "Configure",
-  reset = "Reset"
+  reset = "Reset",
+  howTo = "How?"
 }
 
 enum UnknownErrorInteraction {
@@ -14,21 +15,32 @@ export async function handleFormatError(
   error: any,
   document: vscode.TextDocument
 ) {
-  if (error.code === "ENOENT") {
+  function matches(...codeOrStatus: Array<number | string>) {
+    return codeOrStatus.some(c => c === error.code || c === error.status);
+  }
+  if (matches("ENOENT", 127)) {
     const selection = await Current.editor.showErrorMessage(
-      `Could not find SwiftFormat: ${Current.config.swiftFormatPath(document)}`,
+      `Could not find SwiftFormat: ${Current.config
+        .swiftFormatPath(document)
+        ?.join(" ")}.\nEnsure it is installed and in your PATH.`,
       FormatErrorInteraction.reset,
-      FormatErrorInteraction.configure
+      FormatErrorInteraction.configure,
+      FormatErrorInteraction.howTo
     );
     switch (selection) {
       case FormatErrorInteraction.reset:
-        await Current.config.resetSwiftFormatPath();
+        Current.config.resetSwiftFormatPath();
         break;
       case FormatErrorInteraction.configure:
-        await Current.config.configureSwiftFormatPath();
+        Current.config.configureSwiftFormatPath();
+        break;
+      case FormatErrorInteraction.howTo:
+        await Current.editor.openURL(
+          "https://github.com/nicklockwood/SwiftFormat#command-line-tool"
+        );
         break;
     }
-  } else if (error.status === 70) {
+  } else if (matches(70)) {
     await Current.editor.showErrorMessage(
       `SwiftFormat failed. ${error.stderr || ""}`
     );

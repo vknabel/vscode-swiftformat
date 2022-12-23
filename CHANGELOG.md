@@ -1,3 +1,7 @@
+# 1.6.1
+
+- fix: improved error message when swiftformat is missing
+
 # 1.6.0
 
 - docs: clarified `swiftformat.options` #17
