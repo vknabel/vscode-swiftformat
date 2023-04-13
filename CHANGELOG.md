@@ -1,3 +1,11 @@
+# 1.6.3
+
+- fix: join paths correctly on windows #21
+
+# 1.6.2
+
+- fix: re-release
+
 # 1.6.1
 
 - fix: improved error message when swiftformat is missing

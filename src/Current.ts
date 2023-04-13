@@ -29,7 +29,7 @@ import * as vscode from "vscode";
 import { url } from "./UrlLiteral";
 import { absolutePath } from "./AbsolutePath";
 import { existsSync } from "fs";
-import { join } from "path";
+import * as paths from "path";
 
 export function prodEnvironment(): Current {
   return {
@@ -84,7 +84,7 @@ export function prodEnvironment(): Current {
           if (workspace == null) {
             continue;
           }
-          const fullPath = join(workspace.uri.fsPath, path);
+          const fullPath = paths.resolve(workspace.uri.fsPath, path);
 
           if (existsSync(fullPath)) {
             return [absolutePath(fullPath)];
