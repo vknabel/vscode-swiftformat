@@ -1,6 +1,7 @@
 # 1.6.3
 
 - fix: join paths correctly on windows #21
+- fix: ignore some pipe errors we cannot do anything about
 
 # 1.6.2
 

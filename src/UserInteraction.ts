@@ -18,7 +18,9 @@ export async function handleFormatError(
   function matches(...codeOrStatus: Array<number | string>) {
     return codeOrStatus.some(c => c === error.code || c === error.status);
   }
-  if (matches("ENOENT", 127)) {
+  if (matches("ENOBUFS", "EPIPE")) {
+    return;
+  } else if (matches("ENOENT", "EACCES", 127)) {
     const selection = await Current.editor.showErrorMessage(
       `Could not find SwiftFormat: ${Current.config
         .swiftFormatPath(document)
