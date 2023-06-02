@@ -62,13 +62,22 @@ function format(request: {
               ? `${request.formatting.tabSize}`
               : "tabs"
           ];
+
+    // Make the path explicitly absolute when on Windows. If we don't do this,
+    // SwiftFormat will interpret C:\ as relative and put it at the end of
+    // the PWD.
+    let fileName = request.document.fileName;
+    if (process.platform === "win32") {
+      fileName = "/" + fileName;
+    }
+
     const newContents = childProcess.execFileSync(
       swiftFormatPath[0],
       [
         ...swiftFormatPath.slice(1),
         "stdin",
         "--stdinpath",
-        request.document.fileName,
+        fileName,
         ...userDefinedParams.options,
         ...(request.parameters || []),
         ...formattingParameters
