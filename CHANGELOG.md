@@ -1,3 +1,7 @@
+# 1.6.4
+
+- fix: prefix absolute paths correctly on windows #21 @hf02
+
 # 1.6.3
 
 - fix: join paths correctly on windows #21
