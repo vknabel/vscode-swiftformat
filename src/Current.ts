@@ -30,6 +30,7 @@ import { url } from "./UrlLiteral";
 import { absolutePath } from "./AbsolutePath";
 import { existsSync } from "fs";
 import * as paths from "path";
+import * as glob from "glob";
 
 export function prodEnvironment(): Current {
   return {
@@ -74,10 +75,10 @@ export function prodEnvironment(): Current {
 
       swiftFormatPath: (document: vscode.TextDocument) => {
         // Support running from Swift PM projects
-        const possibleLocalPaths = [
-          ".build/release/swiftformat",
-          ".build/debug/swiftformat"
-        ];
+        const possibleLocalPaths = glob.sync(
+          "**/.build/{release,debug}/swiftlint",
+          { maxDepth: 5 }
+        );
         for (const path of possibleLocalPaths) {
           // Grab the project root from the local workspace
           const workspace = vscode.workspace.getWorkspaceFolder(document.uri);

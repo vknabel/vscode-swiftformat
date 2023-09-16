@@ -6,7 +6,7 @@
     "type": "git",
     "url": "https://github.com/vknabel/vscode-swiftformat"
   },
-  "version": "1.6.4",
+  "version": "1.6.5",
   "license": "MIT",
   "author": {
     "name": "Valentin Knabel",
@@ -120,9 +120,12 @@
     "format": "prettier --write ./*.json ./**/*.ts"
   },
   "devDependencies": {
-    "@types/node": "^10.12.10",
-    "@types/vscode": "^1.26.0",
-    "prettier": "^1.15.2",
-    "typescript": "^3.0.1"
+    "@types/node": "^18.0.0",
+    "@types/vscode": "^1.80.0",
+    "prettier": "^3.0.3",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "glob": "^10.3.4"
   }
 }

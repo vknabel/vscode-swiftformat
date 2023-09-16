@@ -1,3 +1,7 @@
+# 1.6.5
+
+- fix: respect nested swift projects #26
+
 # 1.6.4
 
 - fix: prefix absolute paths correctly on windows #21 @hf02
