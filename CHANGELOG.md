@@ -1,3 +1,7 @@
+# 1.6.7
+
+- fix: windows support
+
 # 1.6.6
 
 - fix: regression in nested swift projects #29

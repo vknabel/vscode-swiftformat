@@ -4,21 +4,27 @@ import Current from "./Current";
 enum FormatErrorInteraction {
   configure = "Configure",
   reset = "Reset",
-  howTo = "How?"
+  howTo = "How?",
 }
 
 enum UnknownErrorInteraction {
-  reportIssue = "Report issue"
+  reportIssue = "Report issue",
 }
 
 export async function handleFormatError(
   error: any,
-  document: vscode.TextDocument
+  document: vscode.TextDocument,
 ) {
   function matches(...codeOrStatus: Array<number | string>) {
-    return codeOrStatus.some(c => c === error.code || c === error.status);
+    return codeOrStatus.some((c) => {
+      if (typeof error.stderr === "string" && error.stderr.includes(c)) {
+        return true;
+      }
+      return c === error.code || c === error.status;
+    });
   }
-  if (matches("ENOBUFS", "EPIPE")) {
+
+  if (matches("Domain=NSCocoaErrorDomain Code=260", "ENOBUFS", "EPIPE")) {
     return;
   } else if (matches("ENOENT", "EACCES", 127)) {
     const selection = await Current.editor.showErrorMessage(
@@ -27,7 +33,7 @@ export async function handleFormatError(
         ?.join(" ")}.\nEnsure it is installed and in your PATH.`,
       FormatErrorInteraction.reset,
       FormatErrorInteraction.configure,
-      FormatErrorInteraction.howTo
+      FormatErrorInteraction.howTo,
     );
     switch (selection) {
       case FormatErrorInteraction.reset:
@@ -38,18 +44,18 @@ export async function handleFormatError(
         break;
       case FormatErrorInteraction.howTo:
         await Current.editor.openURL(
-          "https://github.com/nicklockwood/SwiftFormat#command-line-tool"
+          "https://github.com/nicklockwood/SwiftFormat#command-line-tool",
         );
         break;
     }
   } else if (matches(70)) {
     await Current.editor.showErrorMessage(
-      `SwiftFormat failed. ${error.stderr || ""}`
+      `SwiftFormat failed. ${error.stderr || ""}`,
     );
   } else {
     const unknownErrorSelection = await Current.editor.showErrorMessage(
       `An unknown error occurred. ${error.message || ""}`,
-      UnknownErrorInteraction.reportIssue
+      UnknownErrorInteraction.reportIssue,
     );
     if (unknownErrorSelection === UnknownErrorInteraction.reportIssue) {
       await Current.editor.reportIssueForError(error);

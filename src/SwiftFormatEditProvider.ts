@@ -1,20 +1,21 @@
 import * as vscode from "vscode";
-import * as childProcess from "child_process";
 import Current from "./Current";
 import { handleFormatError } from "./UserInteraction";
 import { existsSync } from "fs";
 import { resolve } from "path";
+import { execShellSync } from "./execShell";
 
 const wholeDocumentRange = new vscode.Range(
   0,
   0,
   Number.MAX_SAFE_INTEGER,
-  Number.MAX_SAFE_INTEGER
+  Number.MAX_SAFE_INTEGER,
 );
 
-function userDefinedFormatOptionsForDocument(
-  document: vscode.TextDocument
-): { options: string[]; hasConfig: boolean } {
+function userDefinedFormatOptionsForDocument(document: vscode.TextDocument): {
+  options: string[];
+  hasConfig: boolean;
+} {
   const formatOptions = Current.config.formatOptions();
   if (formatOptions.indexOf("--config") != -1)
     return { options: formatOptions, hasConfig: true };
@@ -25,7 +26,7 @@ function userDefinedFormatOptionsForDocument(
     "./";
   const searchPaths = Current.config
     .formatConfigSearchPaths()
-    .map(current => resolve(rootPath, current));
+    .map((current) => resolve(rootPath, current));
   const existingConfig = searchPaths.find(existsSync);
   const options =
     existingConfig != null
@@ -48,7 +49,7 @@ function format(request: {
     const input = request.document.getText(request.range);
     if (input.trim() === "") return [];
     const userDefinedParams = userDefinedFormatOptionsForDocument(
-      request.document
+      request.document,
     );
     if (!userDefinedParams.hasConfig && Current.config.onlyEnableWithConfig()) {
       return [];
@@ -60,7 +61,7 @@ function format(request: {
             "--indent",
             request.formatting.insertSpaces
               ? `${request.formatting.tabSize}`
-              : "tabs"
+              : "tabs",
           ];
 
     // Make the path explicitly absolute when on Windows. If we don't do this,
@@ -71,7 +72,7 @@ function format(request: {
       fileName = "/" + fileName;
     }
 
-    const newContents = childProcess.execFileSync(
+    const newContents = execShellSync(
       swiftFormatPath[0],
       [
         ...swiftFormatPath.slice(1),
@@ -80,19 +81,19 @@ function format(request: {
         fileName,
         ...userDefinedParams.options,
         ...(request.parameters || []),
-        ...formattingParameters
+        ...formattingParameters,
       ],
       {
         encoding: "utf8",
-        input
-      }
+        input,
+      },
     );
     return newContents !== request.document.getText(request.range)
       ? [
           vscode.TextEdit.replace(
             request.document.validateRange(request.range || wholeDocumentRange),
-            newContents
-          )
+            newContents,
+          ),
         ]
       : [];
   } catch (error) {
@@ -104,22 +105,23 @@ function format(request: {
 export class SwiftFormatEditProvider
   implements
     vscode.DocumentRangeFormattingEditProvider,
-    vscode.DocumentFormattingEditProvider {
+    vscode.DocumentFormattingEditProvider
+{
   provideDocumentRangeFormattingEdits(
     document: vscode.TextDocument,
     range: vscode.Range,
-    formatting: vscode.FormattingOptions
+    formatting: vscode.FormattingOptions,
   ) {
     return format({
       document,
       parameters: ["--fragment", "true"],
       range,
-      formatting
+      formatting,
     });
   }
   provideDocumentFormattingEdits(
     document: vscode.TextDocument,
-    formatting: vscode.FormattingOptions
+    formatting: vscode.FormattingOptions,
   ) {
     return format({ document, formatting });
   }
