@@ -6,7 +6,7 @@
     "type": "git",
     "url": "https://github.com/vknabel/vscode-swiftformat"
   },
-  "version": "1.6.5",
+  "version": "1.6.6",
   "license": "MIT",
   "author": {
     "name": "Valentin Knabel",
@@ -20,7 +20,7 @@
     "theme": "light"
   },
   "engines": {
-    "vscode": "^1.26.0"
+    "vscode": "^1.80.0"
   },
   "categories": [
     "Formatters",

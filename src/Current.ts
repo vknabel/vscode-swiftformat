@@ -2,7 +2,7 @@ export interface Current {
   editor: {
     openURL(url: string): Thenable<void>;
     reportIssueForError(
-      error: Partial<Error & { code: number }>
+      error: Partial<Error & { code: number }>,
     ): Thenable<void>;
     showErrorMessage<T extends string>(
       message: string,
@@ -38,15 +38,16 @@ export function prodEnvironment(): Current {
       async openURL(url: string) {
         await vscode.commands.executeCommand(
           "vscode.open",
-          vscode.Uri.parse(url)
+          vscode.Uri.parse(url),
         );
       },
       async reportIssueForError(error) {
-        const title = `Report ${error.code || ""} ${error.message ||
-          ""}`.replace(/\\n/, " ");
+        const title = `Report ${error.code || ""} ${
+          error.message || ""
+        }`.replace(/\\n/, " ");
         const body = "`" + (error.stack || JSON.stringify(error)) + "`";
         await Current.editor.openURL(
-          url`https://github.com/vknabel/vscode-swiftformat/issues/new?title=${title}&body=${body}`
+          url`https://github.com/vknabel/vscode-swiftformat/issues/new?title=${title}&body=${body}`,
         );
       },
       showErrorMessage: <T extends string>(message: string, ...actions: T[]) =>
@@ -59,7 +60,7 @@ export function prodEnvironment(): Current {
       ) =>
         vscode.window.showWarningMessage(message, ...actions) as Thenable<
           T | undefined
-        >
+        >,
     },
     config: {
       isEnabled: () =>
@@ -76,8 +77,8 @@ export function prodEnvironment(): Current {
       swiftFormatPath: (document: vscode.TextDocument) => {
         // Support running from Swift PM projects
         const possibleLocalPaths = glob.sync(
-          "**/.build/{release,debug}/swiftlint",
-          { maxDepth: 5 }
+          "**/.build/{release,debug}/swiftformat",
+          { maxDepth: 5 },
         );
         for (const path of possibleLocalPaths) {
           // Grab the project root from the local workspace
@@ -113,8 +114,8 @@ export function prodEnvironment(): Current {
         vscode.workspace
           .getConfiguration()
           .get("swiftformat.configSearchPaths", [".swiftformat"])
-          .map(absolutePath)
-    }
+          .map(absolutePath),
+    },
   };
 }
 

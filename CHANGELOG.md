@@ -1,3 +1,7 @@
+# 1.6.6
+
+- fix: regression in nested swift projects #29
+
 # 1.6.5
 
 - fix: respect nested swift projects #26
