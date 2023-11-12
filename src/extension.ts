@@ -26,6 +26,11 @@ export function activate(context: vscode.ExtensionContext) {
       swiftSelector,
       editProvider,
     );
+    vscode.languages.registerOnTypeFormattingEditProvider(
+      swiftSelector,
+      editProvider,
+      "\n",
+    );
   });
 }
 
