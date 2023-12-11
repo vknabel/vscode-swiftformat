@@ -41,9 +41,15 @@ async function buildSwiftformatIfNeeded() {
   const buildOperations = manifests.map((manifest) => {
     const manifestPath = manifest.fsPath;
     const manifestDir = path.dirname(manifestPath);
-    return promisify(exec)("swift run -c release swiftformat --version", {
-      cwd: manifestDir,
-    });
+    const executable = vscode.workspace.getConfiguration().get("swiftformat.path", undefined);
+    return promisify(exec)(
+      executable
+        ? `${executable} --version`
+        : "swift run -c release swiftformat --version",
+      {
+        cwd: manifestDir
+      }
+    );
   });
   try {
     await vscode.window.withProgress(
