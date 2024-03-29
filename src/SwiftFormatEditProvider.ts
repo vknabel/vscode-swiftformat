@@ -54,16 +54,7 @@ function format(request: {
     if (!userDefinedParams.hasConfig && Current.config.onlyEnableWithConfig()) {
       return [];
     }
-    const formattingParameters =
-      userDefinedParams.options.indexOf("--indent") !== -1
-        ? []
-        : [
-            "--indent",
-            request.formatting.insertSpaces
-              ? `${request.formatting.tabSize}`
-              : "tabs",
-          ];
-
+   
     // Make the path explicitly absolute when on Windows. If we don't do this,
     // SwiftFormat will interpret C:\ as relative and put it at the end of
     // the PWD.
@@ -76,7 +67,6 @@ function format(request: {
       "format",
       ...userDefinedParams.options,
       ...(request.parameters || []),
-      ...formattingParameters,
       fileName,
     ];
     const newContents = (0, execShell_1.execShellSync)(swiftFormatPath[0], shellCommandParameters, {
