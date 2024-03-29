@@ -72,22 +72,18 @@ function format(request: {
       fileName = "/" + fileName;
     }
 
-    const newContents = execShellSync(
-      swiftFormatPath[0],
-      [
-        ...swiftFormatPath.slice(1),
-        "stdin",
-        "--stdinpath",
-        fileName,
-        ...userDefinedParams.options,
-        ...(request.parameters || []),
-        ...formattingParameters,
-      ],
-      {
-        encoding: "utf8",
-        input,
-      },
-    );
+    const shellCommandParameters = [
+      "format",
+      ...userDefinedParams.options,
+      ...(request.parameters || []),
+      ...formattingParameters,
+      fileName,
+    ];
+    const newContents = (0, execShell_1.execShellSync)(swiftFormatPath[0], shellCommandParameters, {
+      encoding: "utf8",
+      input,
+    });
+    
     return newContents !== request.document.getText(request.range)
       ? [
           vscode.TextEdit.replace(
