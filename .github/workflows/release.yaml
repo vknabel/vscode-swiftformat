@@ -1,0 +1,28 @@
+---
+name: Release
+on:
+  release:
+    types:
+      - published
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm i
+
+      - name: Install vsce and ovsx
+        run: npm i -g vsce ovsx
+
+      - name: Publish for VS Code
+        run: vsce publish -p ${{ secrets.VSCE_TOKEN }}
+
+      - name: Publish for VS Codium
+        run: ovsx publish -p ${{ secrets.OVSX_TOKEN }}
