@@ -11,7 +11,7 @@ export function execShellSync(
   options: ExecFileSyncOptionsWithStringEncoding,
 ): string {
   if (os.platform() === "win32") {
-    const result = spawnSync(file, args ?? [], {
+    const result = spawnSync(quotePath(file), args ?? [], {
       ...options,
       encoding: "utf8",
       shell: true,
@@ -22,5 +22,13 @@ export function execShellSync(
     return result.stdout;
   } else {
     return execFileSync(file, args, options);
+  }
+}
+
+function quotePath(path: string): string {
+  if (path.startsWith('"') && path.endsWith('"')) {
+    return path;
+  } else {
+    return `"${path}"`;
   }
 }
