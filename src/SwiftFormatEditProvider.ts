@@ -73,9 +73,9 @@ function format(request: {
     }
 
     const newContents = execShellSync(
-      quotePath(swiftFormatPath[0]),
+      swiftFormatPath[0],
       [
-        ...swiftFormatPath.slice(1).map(quotePath),
+        ...swiftFormatPath.slice(1),
         "stdin",
         "--stdinpath",
         fileName,
@@ -99,14 +99,6 @@ function format(request: {
   } catch (error) {
     handleFormatError(error, request.document);
     return [];
-  }
-}
-
-function quotePath(path: string): string {
-  if (path.startsWith('"') && path.endsWith('"')) {
-    return path;
-  } else {
-    return `"${path}"`;
   }
 }
 
