@@ -132,10 +132,24 @@ export class SwiftFormatEditProvider
     ch: string,
     formatting: vscode.FormattingOptions,
   ) {
-    // Don't format if user has inserted an empty line
-    if (document.lineAt(position.line).text.trim() === "") {
-      return [];
+    // If a new line was entered, format the previous line
+    if (ch === "\n" && position.line > 0) {
+      const previousLine = position.line - 1;
+
+      // If the previous line is empty, formatting is not required
+      if (document.lineAt(previousLine).text.trim() === "") {
+        return [];
+      }
+
+      // Create a range for the previous line and format it
+      const previousLineText = document.lineAt(previousLine).text;
+      const range = new vscode.Range(new vscode.Position(previousLine, 0), new vscode.Position(previousLine, previousLineText.length));
+      return format({
+        document,
+        parameters: ["--fragment", "true"],
+        range,
+        formatting
+      });
     }
-    return format({ document, formatting });
   }
 }
