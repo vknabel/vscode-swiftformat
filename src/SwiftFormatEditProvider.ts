@@ -133,7 +133,10 @@ export class SwiftFormatEditProvider
     formatting: vscode.FormattingOptions,
   ) {
     // If a new line was entered, format the previous line
-    if (ch === "\n" && position.line > 0) {
+    if (ch === "\n") {
+      if (position.line <= 0) {
+        return [];
+      }
       const previousLine = position.line - 1;
 
       // If the previous line is empty, formatting is not required
