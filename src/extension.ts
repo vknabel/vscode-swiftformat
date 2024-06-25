@@ -40,7 +40,7 @@ async function filterManifestsForSwiftformat(manifests: vscode.Uri[]): Promise<v
   const filteredManifests: vscode.Uri[] = [];
   for (const manifest of manifests) {
     const content = await fs.promises.readFile(manifest.fsPath, 'utf8');
-    if (content.includes('name: "swiftformat"')) {
+    if (content.includes('SwiftFormat')) {
       filteredManifests.push(manifest);
     }
   }
