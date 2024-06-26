@@ -12,7 +12,7 @@ export function activate(context: vscode.ExtensionContext) {
     return;
   }
 
-  buildSwiftformatIfNeeded().then(() => {
+  buildSwiftformatIfNeeded().finally(() => {
     const swiftSelector: vscode.DocumentSelector = {
       scheme: "file",
       language: "swift",
