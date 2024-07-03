@@ -19,6 +19,9 @@ export function execShellSync(
     if (result.error) {
       throw result.error;
     }
+    if (result.status !== 0) {
+      throw new Error(`${file} failed with exit code ${result.status}.`);
+    }
     return result.stdout;
   } else {
     return execFileSync(file, args, options);
