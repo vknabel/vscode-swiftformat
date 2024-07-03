@@ -20,7 +20,7 @@ export function execShellSync(
       throw result.error;
     }
     if (result.status !== 0) {
-      throw new Error(`${file} failed with status ${result.status}.`);
+      throw new Error(`${file} failed with exit code ${result.status}.`);
     }
     return result.stdout;
   } else {
