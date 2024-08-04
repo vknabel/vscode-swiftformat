@@ -76,31 +76,25 @@ export function prodEnvironment(): Current {
           .get("swiftformat.onlyEnableWithConfig", false),
 
       swiftFormatPath: (document: vscode.TextDocument) => {
+        // Grab the project root from the local workspace
+        const workspace = vscode.workspace.getWorkspaceFolder(document.uri);
+        if (workspace == null) {
+          return fallbackGlobalSwiftFormatPath();
+        }
+
         // Support running from Swift PM projects
-        const possibleLocalPaths = glob.sync(
+        let possibleLocalPaths = glob.sync(
           "**/.build/{release,debug}/swiftformat",
           { maxDepth: 5 },
         );
         for (const path of possibleLocalPaths) {
-          // Grab the project root from the local workspace
-          const workspace = vscode.workspace.getWorkspaceFolder(document.uri);
-          if (workspace == null) {
-            continue;
-          }
           const fullPath = paths.resolve(workspace.uri.fsPath, path);
 
           if (existsSync(fullPath)) {
             return [absolutePath(fullPath)];
           }
         }
-        if (
-          vscode.workspace
-            .getConfiguration()
-            .get("swiftformat.onlyEnableOnSwiftPMProjects", false)
-        ) {
-          return null;
-        }
-        // Fall back to global defaults found in settings
+
         return fallbackGlobalSwiftFormatPath();
       },
       resetSwiftFormatPath: () =>
@@ -120,8 +114,15 @@ export function prodEnvironment(): Current {
   };
 }
 
-const fallbackGlobalSwiftFormatPath = (): string[] => {
-  var path = vscode.workspace
+const fallbackGlobalSwiftFormatPath = (): string[] | null => {
+  if (
+    vscode.workspace
+      .getConfiguration()
+      .get("swiftformat.onlyEnableOnSwiftPMProjects", false)
+  ) {
+    return null;
+  }
+  let path = vscode.workspace
     .getConfiguration()
     .get<string[] | string | null>("swiftformat.path", null);
 
