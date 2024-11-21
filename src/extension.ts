@@ -4,6 +4,7 @@ import * as vscode from "vscode";
 import { SwiftFormatEditProvider } from "./SwiftFormatEditProvider";
 import Current from "./Current";
 import { promisify } from "util";
+import * as fs from 'fs';
 import * as path from "path";
 import { exec } from "child_process";
 
@@ -34,16 +35,30 @@ export function activate(context: vscode.ExtensionContext) {
   });
 }
 
+// Find Package.swift file for swiftformat
+async function filterManifestsForSwiftformat(manifests: vscode.Uri[]): Promise<vscode.Uri[]> {
+  const filteredManifests: vscode.Uri[] = [];
+  for (const manifest of manifests) {
+    const content = await fs.promises.readFile(manifest.fsPath, 'utf8');
+    if (content.includes('SwiftFormat')) {
+      filteredManifests.push(manifest);
+    }
+  }
+  return filteredManifests;
+}
+
 async function buildSwiftformatIfNeeded() {
   const manifests = await vscode.workspace.findFiles(
     "**/Package.swift",
     "**/.build/**",
     2,
   );
-  if (manifests.length == 0) {
+  const filteredManifests = await filterManifestsForSwiftformat(manifests);
+  if (filteredManifests.length == 0) {
     return;
   }
-  const buildOperations = manifests.map((manifest) => {
+
+  const buildOperations = filteredManifests.map((manifest) => {
     const manifestPath = manifest.fsPath;
     const manifestDir = path.dirname(manifestPath);
     return promisify(exec)("swift run -c release swiftformat --version", {
