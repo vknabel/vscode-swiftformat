@@ -83,15 +83,16 @@ export function prodEnvironment(): Current {
         }
 
         // Support running from Swift PM projects
-        let possibleLocalPaths = glob.sync(
-          "**/.build/{release,debug}/swiftformat",
-          { maxDepth: 5 },
-        );
-        for (const path of possibleLocalPaths) {
-          const fullPath = paths.resolve(workspace.uri.fsPath, path);
-
-          if (existsSync(fullPath)) {
-            return [absolutePath(fullPath)];
+        if (Current.config.onlyEnableOnSwiftPMProjects()) {
+          const possibleLocalPaths = glob.sync(
+            "**/.build/{release,debug}/swiftformat",
+            { maxDepth: 5 },
+          );
+          for (const path of possibleLocalPaths) {
+            const fullPath = paths.resolve(workspace.uri.fsPath, path);
+            if (existsSync(fullPath)) {
+              return [absolutePath(fullPath)];
+            }
           }
         }
 
@@ -115,11 +116,7 @@ export function prodEnvironment(): Current {
 }
 
 const fallbackGlobalSwiftFormatPath = (): string[] | null => {
-  if (
-    vscode.workspace
-      .getConfiguration()
-      .get("swiftformat.onlyEnableOnSwiftPMProjects", false)
-  ) {
+  if (Current.config.onlyEnableOnSwiftPMProjects()) {
     return null;
   }
   let path = vscode.workspace

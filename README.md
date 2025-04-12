@@ -34,7 +34,7 @@ let package = Package(
         .package(url: "https://github.com/orta/PackageConfig.git", from: "0.0.1"),
         // Dev deps
         .package(url: "https://github.com/orta/Komondor.git", from: "0.0.1"),
-+        .package(url: "https://github.com/nicklockwood/SwiftFormat.git", from: "0.35.8"),
++        .package(url: "https://github.com/nicklockwood/SwiftFormat.git", from: "0.55.5"),
     ],
     targets: [...]
 )
@@ -45,11 +45,17 @@ let package = Package(
 | Config                                    | Type       | Default            | Description                                                                                |
 | ----------------------------------------- | ---------- | ------------------ | ------------------------------------------------------------------------------------------ |
 | `swiftformat.enable`                      | `Bool`     | `true`             | Whether SwiftFormat should actually do something.                                          |
-| `swiftformat.onlyEnableOnSwiftPMProjects` | `Bool`     | `false`            | Requires and uses a SwiftFormat as SwiftPM dependency.                                     |
+| `swiftformat.onlyEnableOnSwiftPMProjects` | `Bool`     | `false`            | Requires and uses a SwiftFormat as SwiftPM dependency. This will cause the extension to build the Swift package upon first launch. |
 | `swiftformat.onlyEnableWithConfig`        | `Bool`     | `false`            | Only format if config present.                                                             |
 | `swiftformat.path`                        | `[String]  or String`            | `swiftformat`                                                                              | The location of the globally installed SwiftFormat (resolved with the current path if only a filename). |
 | `swiftformat.options`                     | `[String]` | `[]`               | Additional [options for SwiftFormat](https://github.com/nicklockwood/SwiftFormat#options). |
 | `swiftformat.configSearchPaths`           | `[String]` | `[".swiftformat"]` | Possible paths for SwiftFormat config.                                                     |
+
+Note that when `swiftformat.onlyEnableOnSwiftPMProjects` is enabled, the extension will only run `swiftformat`
+executables built as part of the Swift package open in the workspace. It will try to build the binary once on first
+launch. If the build fails, the extension will not fall back to a globally installed `swiftformat`. If you prefer a
+locally built `swiftformat`, but want to skip the automatic initial build, let `swiftformat.path` point to the local
+executable you have built manually or by other means independent of the extension.
 
 ## FAQs
 
