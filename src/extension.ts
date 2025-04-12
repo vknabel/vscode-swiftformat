@@ -48,6 +48,9 @@ async function filterManifestsForSwiftformat(manifests: vscode.Uri[]): Promise<v
 }
 
 async function buildSwiftformatIfNeeded() {
+  if (!Current.config.onlyEnableOnSwiftPMProjects()) {
+    return;
+  }
   const manifests = await vscode.workspace.findFiles(
     "**/Package.swift",
     "**/.build/**",
