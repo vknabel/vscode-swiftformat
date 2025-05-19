@@ -12,6 +12,11 @@ const wholeDocumentRange = new vscode.Range(
   Number.MAX_SAFE_INTEGER,
 );
 
+function rootPathForDocument(document: vscode.TextDocument): string {
+  const workspaceFolder = vscode.workspace.getWorkspaceFolder(document.uri);
+  return (workspaceFolder && workspaceFolder.uri.fsPath) || vscode.workspace.rootPath || "./";
+}
+
 function userDefinedFormatOptionsForDocument(document: vscode.TextDocument): {
   options: string[];
   hasConfig: boolean;
@@ -19,11 +24,7 @@ function userDefinedFormatOptionsForDocument(document: vscode.TextDocument): {
   const formatOptions = Current.config.formatOptions();
   if (formatOptions.indexOf("--config") != -1)
     return { options: formatOptions, hasConfig: true };
-  const workspaceFolder = vscode.workspace.getWorkspaceFolder(document.uri);
-  const rootPath =
-    (workspaceFolder && workspaceFolder.uri.fsPath) ||
-    vscode.workspace.rootPath ||
-    "./";
+  const rootPath = rootPathForDocument(document);
   const searchPaths = Current.config
     .formatConfigSearchPaths()
     .map((current) => resolve(rootPath, current));
@@ -85,6 +86,7 @@ function format(request: {
       ],
       {
         encoding: "utf8",
+        cwd: rootPathForDocument(request.document),
         input,
       },
     );
